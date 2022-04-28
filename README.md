@@ -7,4 +7,5 @@ SUPER DADA is a bash script that adapts XML-DDI metadata files produced by Datav
 'SUPER DADA' stands for **S**cript for **Up**dating **E**lectronic **R**ecords: From **Da**taverse to CESS**DA**.
 
 There are versions of the script for [version 4.x.x](https://bitbucket.org/cessda/cessda.code.dataverse/src/master/SUPER_DADA_DV_4/) and [version 5.x.x](https://bitbucket.org/cessda/cessda.code.dataverse/src/master/SUPER_DADA_DV_5/) of Dataverse.
+The current and previous versions casn be downloaded in Zip format via the [Downloads option](https://bitbucket.org/cessda/cessda.code.dataverse/downloads/).
 
