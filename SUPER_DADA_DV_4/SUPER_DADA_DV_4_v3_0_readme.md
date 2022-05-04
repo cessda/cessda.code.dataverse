@@ -1,26 +1,57 @@
-# SUPER DADA for Dataverse version 5.x.x
+# SUPER DADA for Dataverse versions 4+
 
 SUPER DADA is a bash script that adapts XML-DDI metadata files produced by Dataverse in order to make them compliant with the technical requirements of the [CESSDA Data Catalogue](https://datacatalogue.cessda.eu/) (CDC).
 
 'SUPER DADA' stands for **S**cript for **Up**dating **E**lectronic **R**ecords: From **Da**taverse to CESS**DA**.
 
-This version of the script is geared towards **versions 5.x.x** of Dataverse.
+This version of the script is geared towards **versions 4+** of Dataverse.
 
 The script was developed and documented in April-May 2021 by Youssef Ouahalou with the help of Benjamin Peuch for the [SODHA repository](https://www.sodha.be/) at the [State Archives of Belgium](http://www.arch.be/index.php?l=en). The second version was completed in June-July 2021.
 
 ## Version history and project status
 
-This is the **first version** of SUPER DADA for **versions 5.x.x** of Dataverse: **SUPER DADA for Dataverse versions 5+ v1.0**
+This is the **second version** of SUPER DADA for **versions 4+** of Dataverse: **SUPER DADA for Dataverse versions 4+ v2.0**
 
-Another, similar version of the script exists for **versions 4.x.x** of Dataverse.
+<span style="color:red">**IMPORTANT NOTE: Please do not use SUPER DADA for Dataverse 4+ <u>v1.0</u>. It turns out the first version of the script is problematic due to unfortunate misinterpretations of the Metadata Validator's constraint violations.**</span>
+
+This new version of the script includes both:
+
+ 1. A **fixed version of the script**, which properly modifies Dataverse-produced XML-DDI metadata records to make them compliant with the basic level of validation of the [CESSDA Metadata Validator](https://cmv.cessda.eu/#!validation) for the [CESSDA Data Catalogue (CDC) DDI 2.5 Profile 1.0.4](https://zenodo.org/record/4050124);
+
+ 2. A **patch** for 'fixing' metadata records on which version 1.0 of SUPER DADA has been run.
 
 If you run into issues with the script, please don't hesitate to reach us at sodha@arch.be.
 
+The next section features a list of problems uncovered in version 1.0 of the script.
+
+## Version 2.0 fixes
+
+If you have run v1.0 of the script on your collections, the problems listed below will be solved by running the file ``Patch_for_SUPER_DADA_v1_0.sh``.
+
+Naturally, v2.0 of the script, i.e. the file ``SUPER_DADA_DV_5_v2_0_script.sh`` does everything properly, and there is no need to run the patch if you've never run v1.0. 
+
+- ``@lang`` → ``@xml:lang``
+
+It was previously thought that several elements required the ``@lang`` attribute to be validated against the CDC. However, the proper attribute is ``@xml:lang``.
+
+- ``<titl>`` – ``<timeMeth>`` – ``<restrctn>``
+
+Besides, three elements which should also have received this attribute did not in v1.0. They are now included in the script's list of targets. The elements in question are:
+
+ 1. ``<titl>``, both the one in ``<docDscr>`` and the other in ``<stdyDscr>``
+ 2. ``<timeMeth>``
+ 3. ``<restrctn>``
+
+- ``<distDate>`` + ``@date``
+
+The script was previously said to add a ``<distDate>`` element in ``<stdyDscr>`` but it did not do so properly. It now does. Both the ``<distDate>`` element and its ``@date`` attribute receive as a value the date contained in the  ``<distDate>`` element present by default in ``<docDscr>``.
+
+
 ## What the script does
 
-In its current state, SUPER DADA modifies XML-DDI files produced by a version 5.x.x Dataverse installation so that the files become fully compliant with the 'BASIC' level of validation (or 'validation gate') of the [CESSDA Metadata Validator](https://cmv.cessda.eu/#!validation) against the [CESSDA Data Catalogue (CDC) DDI 2.5 Profile 1.0.4](https://zenodo.org/record/4050124).
+In its current state, SUPER DADA modifies XML-DDI files produced by a version 4+ Dataverse installation so that they become fully compliant with the 'BASIC' level of validation (or 'validation gate') of the [CESSDA Metadata Validator](https://cmv.cessda.eu/#!validation) against the [CESSDA Data Catalogue (CDC) DDI 2.5 Profile 1.0.4](https://zenodo.org/record/4050124).
 
-<span style="color:red">**WARNING: This script <u>overwrites</u> the contents of metadata export files. It does not create separate, edited copies of the files. Consider backing up your metadata before running the script.**</span>
+<span style="color:red">**WARNING: This script <u>overwrites</u> the contents of metadata export files. It does not create separate, edited copies of the files. Consider making an apart backup of your metadata before running the script.**</span>
 
 As per the CDC requirements, which stem from the [CESSDA Metadata Model](https://zenodo.org/record/3547513), SUPER DADA adds
 
@@ -40,7 +71,7 @@ which are either not present by default in the DDI files produced by Dataverse o
 
 Because this script is tailored for Dataverse, you need to run it on **Linux CentOS 7**.
 
-Place the script anywhere on the server where you have installed Dataverse, preferably in the Payara (formerly, GlassFish) directory.
+Place the script anywhere on the server where you have installed Dataverse, preferably in the GlassFish directory.
 
 The user who executes the script must have **access to the folders** in which the export metadata files are stored.
 
